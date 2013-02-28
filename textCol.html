@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <style>
+            #content{
+                position:absolute;
+                visibility:hidden;
+            }
+
+            #left{
+                width:49%;
+                border:thin solid black;
+                float:left;
+                overflow:hidden;
+
+            }
+
+            #right{
+                width:49%;
+                border:thin solid black;
+                float:right;
+                overflow:hidden;
+            }
+        </style>
+        <script>
+
+            window.onresize = function (){
+
+                var rightCol = document.getElementById("right");
+                var leftCol = document.getElementById("left");
+                leftCol.innerHTML="";
+                var cont = document.getElementById("content").innerHTML;
+                rightCol.innerHTML = cont;
+                var heightL = leftCol.clientHeight;
+                var heightR = rightCol.clientHeight;
+                
+                var tmp = "";
+                var rightFC = rightCol.firstChild;
+
+
+                while(heightL<=heightR){
+
+                    if(heightL+rightFC.clientHeight<=heightR-rightFC.clientHeight){ //copies nodes from R to L columns
+
+                        rightCol.removeChild(rightFC);
+                        leftCol.appendChild(rightFC);
+                        rightFC = rightCol.firstChild;
+                        heightL = leftCol.clientHeight;
+                        heightR = rightCol.clientHeight;
+                    }
+                
+                    if(rightCol.firstChild.nodeType == 3){ //moves words one by one from right to left column
+
+                        firstSpace = rightCol.innerHTML.indexOf(" ");
+                        firstWord = rightCol.innerHTML.substr(0,firstSpace);
+                        lastPart = rightCol.innerHTML.substr(firstSpace+1);
+                        rightCol.innerHTML = lastPart;
+                        leftCol.innerHTML = leftCol.innerHTML + " " + firstWord;
+                        heightL = leftCol.clientHeight;
+                        heightR = rightCol.clientHeight;
+                    }
+                }
+
+                 
+                while(heightL == leftCol.clientHeight){ //height of leftCol is reached; loop runs until height of leftCol changes
+
+                            lSpace = leftCol.innerHTML.lastIndexOf(" ");
+                            fPart = leftCol.innerHTML.substr(0,lSpace);
+                            lWord = leftCol.innerHTML.substr(lSpace);
+                            leftCol.innerHTML = fPart;
+                            tmp = lWord + " " + tmp;
+
+                        }
+
+                        rightCol.innerHTML = tmp + " " + rightCol.innerHTML;
+                        tmp = "";                     
+                }
+                    
+        </script>
+    </head>
+    <body>
+        <div id="content"><img src="http://www.cs.rutgers.edu/~wlynch92/photo.jpeg" height="50px"/>Short messages are particularly popular among young urbanites. In many markets, the service is comparatively cheap. For example, in Australia, a message typically costs between A$0.20 and $0.25 to send (some prepaid services charge $0.01 between their own phones), compared with a voice call, which costs somewhere between $0.40 and $2.00 per minute (commonly charged in half-minute blocks). Despite the low cost to the consumer, the service is enormously profitable to the service providers. At a typical length of only 190 bytes (including protocol overhead), more than 350 of these messages per minute can be kasdljfgiasdjgioasdjgiosdagiosdgj transmitted at the same data rate as a usual voice call (9 kbit/s). There are also free SMS services available, which are often sponsored and allow sending SMS from a PC connected to the internet.<img src="http://www.cs.rutgers.edu/~wlynch92/photo.jpeg" height="50px"/> Mobile service providers in New Zealand, such as Vodafone and Telecom NZ, provide up to 2000 SMS messages for NZ$10 per month. Users on these plans send on average 1500 SMS messages every month.Text messaging has become so popular that advertising agencies and advertisers are now jumping into the text messaging business. Services that provide bulk text message sending are also becoming a popular way for clubs, associations, and advertisers to reach a group of opt-in subscribers quickly.</div> 
+        <div id="left"></div>
+        <div id="right"></div>
+    </body>
+</html>
